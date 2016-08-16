@@ -1,0 +1,33 @@
+{
+  "name": "edx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitifirefly/edX-Wechat-new.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bitifirefly/edX-Wechat-new/issues"
+  },
+  "homepage": "https://github.com/bitifirefly/edX-Wechat-new#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.1",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-nodemon": "^2.1.0"
+  }
+}
