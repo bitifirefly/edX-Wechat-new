@@ -4,9 +4,11 @@ var livereload = require('gulp-livereload');
 var eslint = require('gulp-eslint');
 var sass = require('gulp-ruby-sass');
 var uglify = require('gulp-uglify');
+var htmlmin = require('gulp-htmlmin');
 
 gulp.task('default', [
   'develop',
+  'htmlmin',
   'sass',
   'uglify',
   'eslint',
@@ -23,13 +25,12 @@ gulp.task('eslint', function() {
 
 gulp.task('watch', function() {
   livereload.listen();
-  gulp.watch('./public/js/src/*.js', ['uglify']);
-  gulp.watch('./public/css/src/**/*.scss', ['sass']);
-  gulp.watch('./views/*.ejs', function() {
+  gulp.watch('./public/src/js/*.js', ['uglify']);
+  gulp.watch('./public/src/css/*.scss', ['sass']);
+  gulp.watch('./views/src/*.ejs', ['htmlmin'], function() {
     livereload();
-    console.log('ejs');
   });
-  gulp.watch(['**/*.js', '!node_modules/**', '!**/dist/*.js'], ['eslint']);
+  gulp.watch(['**/*.js', '!node_modules/**', '!**/dist/**/*.js'], ['eslint']);
 });
 
 gulp.task('develop', function() {
@@ -45,19 +46,35 @@ gulp.task('develop', function() {
 });
 
 gulp.task('sass', function() {
-  return sass('./public/css/src/*.scss', {
+  return sass('./public/src/css/*.scss', {
     style: 'compressed'
   })
-    .pipe(gulp.dest('./public/css/dist'))
+    .pipe(gulp.dest('./public/dist/css'))
     .pipe(livereload());
 });
 
 gulp.task('uglify', function() {
-  gulp.src('./public/js/src/*.js')
-    .pipe(uglify({
-      compress: true,
-      mangle: true
-    }))
-    .pipe(gulp.dest('./public/js/dist'))
-    .pipe(livereload());
+  gulp.src('./public/src/js/*.js')
+      .pipe(uglify({
+        compress: true,
+        mangle: true
+      }))
+      .pipe(gulp.dest('./public/dist/js'))
+      .pipe(livereload());
+});
+
+gulp.task('htmlmin', function() {
+  var options = {
+    removeComments: true,
+    collapseWhitespace: true,
+    collapseBooleanAttributes: true,
+    removeEmptyAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    minifyJS: true,
+    minfyCSS: true
+  };
+  gulp.src('views/src/*.ejs')
+		.pipe(htmlmin(options))
+		.pipe(gulp.dest('views/dist/'));
 });

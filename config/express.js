@@ -7,7 +7,7 @@ var compression = require('compression');
 
 module.exports = function(app, config) {
 
-  app.set('views', config.root + '/views');
+  app.set('views', config.root + '/views/dist/');
   app.set('view engine', 'ejs');
 
   // app.use(favicon(config.root + '/public/img/dist/favicon.ico'));
