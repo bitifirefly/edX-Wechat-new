@@ -5,8 +5,10 @@ var eslint = require('gulp-eslint');
 var sass = require('gulp-ruby-sass');
 var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
+var shell = require('gulp-shell');
 
 gulp.task('default', [
+  'ngrok',
   'develop',
   'htmlmin',
   'sass',
@@ -14,6 +16,10 @@ gulp.task('default', [
   'eslint',
   'watch'
 ]);
+
+gulp.task('ngrok', shell.task([
+  'ngrok-weixin'
+]));
 
 gulp.task('eslint', function() {
   livereload.listen();

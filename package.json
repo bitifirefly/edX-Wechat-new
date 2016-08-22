@@ -33,6 +33,7 @@
     "gulp-livereload": "^3.8.1",
     "gulp-nodemon": "^2.1.0",
     "gulp-ruby-sass": "^2.1.0",
+    "gulp-shell": "^0.5.2",
     "gulp-uglify": "^2.0.0"
   }
 }
