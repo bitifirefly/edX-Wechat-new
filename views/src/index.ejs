@@ -1,28 +1,39 @@
 <% include ./header %>
 
-<div class="page-group">
-  <div class="page">
+<div class="page">
 
-    <header class="bar bar-nav">
+  <header class="bar bar-nav">
     <button class="button button-link button-nav pull-left">
       <span class="icon icon-menu open-panel"></span>
       &nbsp;&nbsp;&nbsp;&nbsp;我的课程
     </button>
   </header>
 
-    <div class="content">
-      <div class="card">
-        <div class="card-header">卡头</div>
+  <div class="content">
+    <% courses.forEach(function(course) { %>
+      <div class="card demo-card-header-pic">
+        <div valign="bottom" class="card-header color-white no-border no-padding">
+          <img class='card-cover' src="http://x.edustack.org<%= course.media.course_image.uri %>" alt="course image">
+        </div>
         <div class="card-content">
           <div class="card-content-inner">
-            hello
+            <p><%= course.org %></p>
+            <p><%= course.number %></p>
+            <p><%= course.name %></p>
+            <p><%= course.start_display %></p>
           </div>
         </div>
-        <div class="card-footer">卡脚</div>
       </div>
-    </div>
+    <% }) %>
 
+    <div class="content-block">
+      <p class="buttons-row">
+        <a href="/?page=<%= lastPage %>" class="button">上一页</a>
+        <a href="/?page=<%= nextPage %>" class="button">下一页</a>
+      </p>
+    </div>
   </div>
+
 </div>
 
 <div class="panel panel-left panel-cover theme-dark" id='panel-left-demo'>
@@ -60,6 +71,7 @@
     </ul>
   </div>
 </div>
+
 <div class="panel panel-right panel-reveal">
   <div class="content-block">
     <p>这是一个侧栏</p>

@@ -8,7 +8,6 @@ var htmlmin = require('gulp-htmlmin');
 var shell = require('gulp-shell');
 
 gulp.task('default', [
-  'ngrok',
   'develop',
   'htmlmin',
   'sass',
