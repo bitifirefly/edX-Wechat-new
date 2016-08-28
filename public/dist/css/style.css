@@ -1,1 +1,1 @@
-html,body{padding:0}
+html,body{height:100%}body{display:flex;flex-direction:column}.main{overflow:scroll;flex:1}.tab{flex:60px 0 0}
