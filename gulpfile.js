@@ -32,7 +32,7 @@ gulp.task('watch', function() {
   livereload.listen();
   gulp.watch('./public/src/js/*.js', ['uglify']);
   gulp.watch('./public/src/css/*.scss', ['sass']);
-  gulp.watch('./views/src/*.ejs', ['htmlmin'], function() {
+  gulp.watch('./views/src/**/*.ejs', ['htmlmin'], function() {
     livereload();
   });
   gulp.watch(['**/*.js', '!node_modules/**', '!**/dist/**/*.js'], ['eslint']);
@@ -79,7 +79,7 @@ gulp.task('htmlmin', function() {
     minifyJS: true,
     minfyCSS: true
   };
-  gulp.src('views/src/*.ejs')
+  gulp.src('views/src/**/*.ejs')
 		.pipe(htmlmin(options))
 		.pipe(gulp.dest('views/dist/'));
 });
