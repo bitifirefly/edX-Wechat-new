@@ -1,8 +1,5 @@
 var request = require('request');
 
-var edxKey = 'fdda3d0d647212c22cdf';
-var edxSecret = 'd6f9c6e66062b7f599e93e8d1829b25d52627fef';
-
 module.exports = function(app) {
 
   app.get('/', function(req, res) {
@@ -30,6 +27,28 @@ module.exports = function(app) {
   });
 
   app.get('/signin', function(req, res) {
+    var url = 'https://e.edustack.org/oauth2/access_token';
+    var options = {
+      client_id: 'fdda3d0d647212c22cdf',
+      client_secret: 'd6f9c6e66062b7f599e93e8d1829b25d52627fef',
+      grant_type: 'password',
+      username: 'uniquexiaobai',
+      password: 'edx411324'
+    };
+    request.post({url: url, form: options}, function(e, response, body) {
+      var auth = JSON.parse(body);
+      var options = {
+        url: 'http://e.edustack.org/api/user/v1/accounts/uniquexiaobai',
+        headers: {
+          'Authorization': 'Bearer ' + auth.access_token
+        }
+      };
+      request(options, function(e, response, user) {
+        console.log('user', user);
+      });
+
+    });
+
     res.render('accounts/signin', {
       title: 'signin'
     });
