@@ -5,6 +5,8 @@ var app = express();
 
 require('./config/express')(app, config);
 
+require('./config/mongodb')();
+
 app.listen(config.port, function() {
   console.log('Express server listening on port ' + config.port);
 });
