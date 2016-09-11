@@ -6,12 +6,10 @@ var request = require('request');
 var User = require('../models/users');
 
 var signin = require('./accounts/signin');
-var signup = require('./accounts/signup');
 
 module.exports = function(app) {
 
   signin(app, User);
-  signup(app);
 
   app.get('/', function(req, res) {
     var page = ~~req.query.page || 1;
