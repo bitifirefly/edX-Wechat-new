@@ -11,7 +11,7 @@
         <label class="weui_label">用户名</label>
       </div>
       <div class="weui_cell_bd weui_cell_primary">
-        <input id="name" class="weui_input" type="text" placeholder="User Name">
+        <input id="username" class="weui_input" type="text" placeholder="User Name">
       </div>
     </div>
     <div class="weui_cell">
@@ -32,22 +32,26 @@
 
 <script>
   $(function() {
-    var $user = $('#name');
+    var $username = $('#username');
     var $password = $('#password');
     var $submitBtn = $('#submitBtn');
     var $js_tooltips = $('.js_tooltips');
 
     $submitBtn.on('click', function() {
-      if($user.val().trim() === '' || $password.val().trim() === '') {
+      if($username.val().trim() === '' || $password.val().trim() === '') {
         $js_tooltips.text('不能为空');
         $js_tooltips.show();
         setTimeout(function (){
           $js_tooltips.hide();
         }, 2000);
       } else {
-        $.post('/signin', { name: $user.val(), password: $password.val() }, function(err, status) {
+        $.post('/signin', { username: $username.val(), password: $password.val() }, function(err, status) {
           if(err) {
-            
+            $js_tooltips.text('提交失败');
+            $js_tooltips.show();
+            setTimeout(function (){
+              $js_tooltips.hide();
+            }, 2000);
           }
         });
       }
