@@ -30,6 +30,8 @@
   </div>
 </div>
 
+<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx859a586800c080a4&redirect_uri=http%3A%2F%2Fedx.tunnel.2bdata.com%2Fwechat&response_type=code&scope=snsapi_base&state=xiaobai#wechat_redirect" class="weui_btn weui_btn_primary">使用微信登录</a>
+
 <script>
   $(function() {
     var $username = $('#username');
@@ -41,7 +43,7 @@
       if($username.val().trim() === '' || $password.val().trim() === '') {
         $js_tooltips.text('不能为空');
         $js_tooltips.show();
-        setTimeout(function (){
+        setTimeout(function() {
           $js_tooltips.hide();
         }, 2000);
       } else {

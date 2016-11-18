@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var compression = require('compression');
 
 module.exports = function(app, config) {
-
   app.set('views', config.root + '/views/dist/');
   app.set('view engine', 'ejs');
 
@@ -46,5 +45,4 @@ module.exports = function(app, config) {
       title: 'error'
     });
   });
-
 };

@@ -4,7 +4,6 @@ var config = require('./config/config');
 var app = express();
 
 require('./config/express')(app, config);
-
 require('./config/mongodb')();
 
 app.listen(config.port, function() {

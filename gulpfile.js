@@ -16,10 +16,6 @@ gulp.task('default', [
   'watch'
 ]);
 
-gulp.task('ngrok', shell.task([
-  'ngrok-weixin'
-]));
-
 gulp.task('eslint', function() {
   livereload.listen();
   return gulp.src(['**/*.js', '!node_modules/**', '!**/dist/*.js'])

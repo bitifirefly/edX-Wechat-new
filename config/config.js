@@ -7,14 +7,14 @@ var config = {
     name: 'development',
     root: rootPath,
     port: 3000,
-    db: 'mongodb://localhost/mvc-development'
+    db: 'mongodb://localhost/dex-development'
   },
 
   production: {
     name: 'production',
     root: rootPath,
     port: 80,
-    db: 'mongodb://localhost/mvc-production'
+    db: 'mongodb://localhost/dex-production'
   }
 };
 

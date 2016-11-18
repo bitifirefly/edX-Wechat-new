@@ -1,14 +1,20 @@
-/**
- * 路由汇集
- */
 var request = require('request');
+var OAuth = require('wechat-oauth');
+
+var wechat_data = {
+  appId: 'wx859a586800c080a4',
+  appSecret: 'a37ae4e1f1f9e0f9212ccb1dd4c59851',
+  redirectUrl: 'http://edx.tunnel.2bdata.com/wechat',
+  state: 'xiaobai',
+  scope: 'snsapi_base'
+};
+var client = new OAuth(wechat_data.appId, wechat_data.appSecret);
+var url = client.getAuthorizeURL(wechat_data.redirectUrl, wechat_data.state, wechat_data.scope);
 
 var User = require('../models/users');
-
 var signin = require('./accounts/signin');
 
 module.exports = function(app) {
-
   signin(app, User);
 
   app.get('/', function(req, res) {
@@ -50,4 +56,13 @@ module.exports = function(app) {
     });
   });
 
+  app.get('/wechat', function(req, res) {
+    // console.log('#url#', url);
+    // console.log('#/wechat#', req.query);
+    client.getAccessToken(req.query.code, function (err, result) {
+      // var accessToken = result.data.access_token;
+      // var openid = result.data.openid;
+      console.log('#openid#', result);
+    });
+  });
 };

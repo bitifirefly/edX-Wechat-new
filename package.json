@@ -25,7 +25,9 @@
     "mongoose": "^4.6.0",
     "morgan": "^1.7.0",
     "request": "^2.74.0",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "sha1": "^1.1.1",
+    "wechat-oauth": "^1.1.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

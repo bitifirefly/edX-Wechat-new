@@ -1,7 +1,3 @@
-/**
- * 数据库连接配置
- */
-
 var mongoose = require('mongoose');
 
 var mongoUri = 'mongodb://localhost/edx';
