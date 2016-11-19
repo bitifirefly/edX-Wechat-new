@@ -1,7 +1,3 @@
-/**
- * 数据库集合、方法定义
- */
-
 var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
@@ -11,6 +7,5 @@ var UserSchema = new mongoose.Schema({
   refresh_token: String
 });
 
-var User = mongoose.model('User', UserSchema);
-
-module.exports = User;
+var UserModel = mongoose.model('User', UserSchema);
+module.exports = UserModel;

@@ -19,11 +19,11 @@ module.exports = function(app, config) {
   app.use(compression());
   app.use(express.static(config.root + '/public'));
 
-  var router = require('../routes/router');
+  var router = require('../routes');
   router(app);
 
   app.use(function(req, res) {
-    res.render('not-found');
+    res.render('not_found');
   });
 
   if(config.name === 'development'){

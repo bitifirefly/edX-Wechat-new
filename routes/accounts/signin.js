@@ -1,13 +1,13 @@
 var request = require('request');
 
-module.exports = function(app, User) {
+module.exports = function(app, UserModel) {
   app.post('/signin', function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
 
     console.log(username, password);
 
-    // User.findOne({username: username})
+    // UserModel.findOne({username: username})
     //   .then(function(user) {
     //     if(!user) {
     //       console.log('!user');
@@ -25,7 +25,7 @@ module.exports = function(app, User) {
   });
 
   app.get('/signin', function(req, res) {
-    res.render('accounts/signin', {
+    res.render('signin', {
       title: 'signin'
     });
   });
