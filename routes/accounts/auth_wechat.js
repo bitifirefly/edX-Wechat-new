@@ -1,17 +1,36 @@
-var OAuth = require('wechat-oauth');
+const OAuth = require('wechat-oauth');
 
-module.exports = function(app) {
-  var wechat_data = app.get('settings').wechat;
-  var client = new OAuth(wechat_data.appId, wechat_data.appSecret);
-  var url = client.getAuthorizeURL(wechat_data.redirectUrl, wechat_data.state, wechat_data.scope);
+module.exports = (app, UserModel) => {
+  const wechat_data = app.get('settings').wechat;
+  const client = new OAuth(wechat_data.appId, wechat_data.appSecret);
 
-  app.get('/auth_wechat', function(req, res) {
-    // console.log('#url#', url);
-    // console.log('#/wechat#', req.query);
-    client.getAccessToken(req.query.code, function (err, result) {
-      // var accessToken = result.data.access_token;
-      // var openid = result.data.openid;
-      console.log('#openid#', result);
+  app.get('/auth_wechat', (req, res) => {
+    if (!req.query.code) {
+      console.error('获取 code 失败');
+      return;
+    }
+    client.getAccessToken(req.query.code, (err, token) => {
+      // result.data: access_token, expires_in, refresh_token, openid
+      if (!token.data) return;
+      const openid = token.data.openid;
+      console.log('#token#', openid);
+
+      const promise = UserModel.findOne({ openid }).exec();
+      promise.then(user => {
+        if (!user) {
+          console.log('#user null#', user);
+          const newUser = new UserModel({ openid });
+          return Promise.resolve(newUser.save());
+        }
+        console.log('#user success#', user);
+        return user;
+      }).then(user => {
+        if (user) {
+          console.log('#user then#', user);
+          req.session.user = user;
+          return res.redirect('/signin');
+        }
+      });
     });
   });
 };

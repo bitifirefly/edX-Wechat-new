@@ -1,8 +1,12 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var mongoUri = 'mongodb://localhost/edx';
+const config = require('./config');
+const mongoUri = config.db;
 
-module.exports = function() {
+module.exports = () => {
   mongoose.connect(mongoUri);
-  mongoose.connection.on('error', console.error.bind(console, '### database connect error !'));
+  const db = mongoose.connection;
+  
+  db.on('error', console.error.bind(console, '#db# database connect error !'));
+  db.once('open', () => console.log('#db#', 'database connect success !'));
 };

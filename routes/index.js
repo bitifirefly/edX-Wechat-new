@@ -1,19 +1,19 @@
-var request = require('request');
+const request = require('request');
 
-var { UserModel } = require('../models');
+const { UserModel } = require('../models');
 
-var findCourseRouter = require('./find_courses');
-var myCourseRouter = require('./my_courses');
-var myVideosRouter = require('./my_videos');
-var settingsRouter = require('./settings');
-var signinRouter = require('./accounts/signin');
-var authWechatRouter = require('./accounts/auth_wechat');
+const findCourseRouter = require('./find_courses');
+const myCourseRouter = require('./my_courses');
+const myVideosRouter = require('./my_videos');
+const settingsRouter = require('./settings');
+const signinRouter = require('./accounts/signin');
+const authWechatRouter = require('./accounts/auth_wechat');
 
-module.exports = function(app) {
-  findCourseRouter(app);
+module.exports = (app) => {
+  findCourseRouter(app, UserModel);
   myCourseRouter(app);
   myVideosRouter(app);
   settingsRouter(app);
   signinRouter(app, UserModel);
-  authWechatRouter(app);
+  authWechatRouter(app, UserModel);
 };

@@ -1,11 +1,12 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
-var UserSchema = new mongoose.Schema({
-  username: String,
+const UserSchema = new mongoose.Schema({
+  openid: String,
   access_token: String,
   expires_in: Date,
   refresh_token: String
 });
 
-var UserModel = mongoose.model('User', UserSchema);
+const UserModel = mongoose.model('User', UserSchema);
 module.exports = UserModel;

@@ -1,32 +1,45 @@
-var request = require('request');
+const request = require('request');
 
-module.exports = function(app, UserModel) {
-  app.post('/signin', function(req, res) {
-    var username = req.body.username;
-    var password = req.body.password;
+const helper = require('./helper');
 
-    console.log(username, password);
+module.exports = (app, UserModel) => {
+  app.get('/signin', (req, res) => {
+    const openid = req.session.user.openid;
 
-    // UserModel.findOne({username: username})
-    //   .then(function(user) {
-    //     if(!user) {
-    //       console.log('!user');
-    //       getAccessToken(User, username, password);
-    //     }
-    //     if(user.expires_in && !isAccessTokenExpired(user.expires_in)) {
-    //       updateAccessTokenExpired(User, user.refresh_token);
-    //     }
-    //     console.log('### signin success');
-    //     res.redirect('/');
-    //   })
-    //   .then(function(err) {
-    //     if(err) console.log(err);
-    //   });
+    const promise = UserModel.findOne({ openid }).exec();
+    promise.then(user => {
+      if (user.access_token) {
+        return res.redirect('/');
+      }
+      res.render('signin', {
+        title: '用户登录'
+      });
+    });
   });
 
-  app.get('/signin', function(req, res) {
-    res.render('signin', {
-      title: 'signin'
-    });
+  app.post('/signin', (req, res) => {
+    const openid = req.session.user.openid;
+    const username = req.body.username;
+    const password = req.body.password;
+    console.log('#user#', username, password);
+
+    /*helper.getAccessToken(UserModel, 'uniquexiaobai', 'edx411324', (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log('#result#', result);
+    });*/
+    helper.getAccessToken(UserModel, username, password)
+      .then(token => {
+        if (token.error_description) {
+          console.log('#username or password incorrect#', token.error_description);
+          return res.send('incorrect');
+        }
+        console.log('#result#', token.error_description);
+        return res.send('success');
+      })
+      .catch(err => {
+        console.error('#get edx token error#', err);
+      });
   });
 };

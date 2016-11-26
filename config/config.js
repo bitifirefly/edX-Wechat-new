@@ -1,20 +1,21 @@
-var path = require('path');
-var env = process.env.NODE_ENV || 'production';
-var rootPath = path.normalize(__dirname + '/..');
+const path = require('path');
 
-var config = {
+const env = process.env.NODE_ENV || 'production';
+const rootPath = path.normalize(__dirname + '/..');
+
+const config = {
   development: {
     name: 'development',
     root: rootPath,
     port: 3000,
-    db: 'mongodb://localhost/dex-development'
+    db: 'mongodb://localhost/edx-development'
   },
 
   production: {
     name: 'production',
     root: rootPath,
     port: 80,
-    db: 'mongodb://localhost/dex-production'
+    db: 'mongodb://localhost/edx-production'
   }
 };
 
