@@ -1,45 +1,48 @@
 const request = require('request');
+const express = require('express');
+const router = express.Router();
+const { UserModel } = require('../../models');
+const { isAccessTokenExpired, getAccessToken, updateAccessToken } = require('../../utils/helper');
 
-const helper = require('./helper');
+router.get('/', (req, res) => {
+  res.render('signin', {title: '用户登录'});
+});
 
-module.exports = (app, UserModel) => {
-  app.get('/signin', (req, res) => {
-    const openid = req.session.user.openid;
+router.post('/', (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log('#login user#', username, password);
 
-    const promise = UserModel.findOne({ openid }).exec();
-    promise.then(user => {
-      if (user.access_token) {
-        return res.redirect('/');
+  const openid = req.session.user.openid;
+  getAccessToken(username, password)
+    .then(token => {
+      if (token.error_description) {
+        console.log('#username or password incorrect#', token.error_description);
+        return Promise.reject('incorrect');
       }
-      res.render('signin', {
-        title: '用户登录'
+
+      const newUser = new UserModel({
+        openid,
+        access_token: token.access_token,
+        expires_in: token.expires_in,
+        refresh_token: token.refresh_token
       });
+      return newUser.save();
+    }).then(user => {
+      console.log('#then success#', user);
+      req.session.user = { openid: user.openid, access_token: user.access_token };
+      return Promise.reject('success');
+    }).catch(result => {
+      console.log('#then err#', result);
+      if (result === 'incorrect') {
+        res.send('incorrect');
+        return;
+      }
+      if (result === 'success') {
+        res.send('success');
+        return;
+      }
     });
-  });
+});
 
-  app.post('/signin', (req, res) => {
-    const openid = req.session.user.openid;
-    const username = req.body.username;
-    const password = req.body.password;
-    console.log('#user#', username, password);
-
-    /*helper.getAccessToken(UserModel, 'uniquexiaobai', 'edx411324', (err, result) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log('#result#', result);
-    });*/
-    helper.getAccessToken(UserModel, username, password)
-      .then(token => {
-        if (token.error_description) {
-          console.log('#username or password incorrect#', token.error_description);
-          return res.send('incorrect');
-        }
-        console.log('#result#', token.error_description);
-        return res.send('success');
-      })
-      .catch(err => {
-        console.error('#get edx token error#', err);
-      });
-  });
-};
+module.exports = router;

@@ -6,6 +6,7 @@ const compression = require('compression');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const router = require('../routes');
 
 module.exports = (app, config) => {
   app.set('views', config.root + '/views/dist/');
@@ -18,14 +19,16 @@ module.exports = (app, config) => {
   app.use(compression());
   app.use(express.static(config.root + '/public'));
   app.use(session({
+    key: 'edx_session_id',
     secret: 'edx',
+    resave: true,
+    saveUninitialized: true,
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
     store: new MongoStore({
       mongooseConnection: mongoose.connection
     })
   }));
 
-  const router = require('../routes');
   router(app);
 
   app.use((req, res) => {

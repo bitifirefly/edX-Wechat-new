@@ -1,5 +1,5 @@
 const request = require('request');
-const settings = require('../../settings.json');
+const settings = require('../settings.json');
 
 const { client_id, client_secret } = settings.edx;
 
@@ -9,7 +9,7 @@ module.exports = {
   updateAccessToken: updateAccessToken
 };
 
-function getAccessToken(User, username, password) {
+function getAccessToken(username, password) {
   const getTokenUrl = 'https://x.edustack.org/oauth2/access_token';
   const getTokenOptions = {
     client_id: client_id,
@@ -21,11 +21,14 @@ function getAccessToken(User, username, password) {
 
   return new Promise((resolve, reject) => {
     request.post({url: getTokenUrl, form: getTokenOptions}, (err, res, token) => {
-      console.log('#test error#', err, res.statusCode);
       // when username or password incorrect, res.statusCode === 400 && err === null
       // && token.error_description === {err_description, error}
       if (err) reject(err);
       token = JSON.parse(token);
+      if (token.expires_in) {
+        token.expires_in = new Date(token.expires_in + Date.now());
+        console.log(token.expires_in);
+      }
       resolve(token);
       
       /*const options = {
@@ -44,11 +47,11 @@ function getAccessToken(User, username, password) {
 }
 
 function isAccessTokenExpired(expires_in) {
-  return expires_in - new Date() >= 3600000;
+  return expires_in - new Date() <= 3600000;
 }
 
-function updateAccessToken(User, refresh_token) {
-  const getTokenUrl = 'https://x.edustack.org/oauth2/access_token';
+function updateAccessToken(refresh_token) {
+  const updateTokenUrl = 'https://x.edustack.org/oauth2/access_token';
   const updateTokenOptions = {
     client_id: client_id,
     client_secret: client_secret,
@@ -57,10 +60,12 @@ function updateAccessToken(User, refresh_token) {
   };
 
   return new Promise((resolve, reject) => {
-    request.post({url: getTokenUrl, form: updateTokenOptions}, function(err, res, token) {
+    request.post({url: updateTokenUrl, form: updateTokenOptions}, function(err, res, token) {
       if(err) reject(err);
       token = JSON.parse(token);
-      token.expires_in = new Date(token.expires_in + Date.now());
+      if (token.expires_in) {
+        token.expires_in = new Date(token.expires_in + Date.now());
+      }
       resolve(token);
       /*User.update(
         {refresh_token: refresh_token},

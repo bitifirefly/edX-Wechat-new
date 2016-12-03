@@ -35,13 +35,12 @@ gulp.task('watch', function() {
 });
 
 gulp.task('develop', function() {
-  livereload.listen();
   nodemon({
     script: 'app.js',
     ignore: [
       '.sass-cache'
     ],
-    ext: 'js ejs',
+    ext: 'js',
     env: { 'NODE_ENV': 'development'}
   });
 });
