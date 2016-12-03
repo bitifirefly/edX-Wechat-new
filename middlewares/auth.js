@@ -1,6 +1,6 @@
 const OAuth = require('wechat-oauth');
+
 const settings = require('../settings.json');
-const fs = require('fs');
 const { UserModel } = require('../models');
 const { isAccessTokenExpired, updateAccessToken } = require('../utils/helper');
 
@@ -8,10 +8,8 @@ const client = new OAuth(settings.wechat.appId, settings.wechat.appSecret);
 const wechat_auth_url = client.getAuthorizeURL(settings.wechat.redirectUrl, settings.wechat.state, settings.wechat.scope);
 
 module.exports = (req, res, next) => {
-  console.log('#session#', req.session.user);
   if (!req.session.user || !req.session.user.openid) {
     req.session.referer = `http://${req.host}${req.baseUrl}`;
-    console.log('#referer#', req.session.referer);
     return res.redirect(wechat_auth_url);
   }
 
@@ -22,7 +20,6 @@ module.exports = (req, res, next) => {
   const openid = req.session.user.openid;
   UserModel.findOne({ openid: openid }).exec()
     .then(user => {
-      console.log('#user#', user);
       if (!user) {
         return Promise.reject('signin');
       }
@@ -42,10 +39,8 @@ module.exports = (req, res, next) => {
       }
     })
     .then(user => {
-      console.log('#save success#', user);
-      return;
+      if (user) return;
     }).catch(result => {
-      console.log('#catch result#', result);
       if (result === 'signin') {
         return res.redirect('/signin');
       }

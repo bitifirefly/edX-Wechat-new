@@ -9,7 +9,7 @@ const MongoStore = require('connect-mongo')(session);
 const router = require('../routes');
 
 module.exports = (app, config) => {
-  app.set('views', config.root + '/views/dist/');
+  app.set('views', config.root + '/views/');
   app.set('view engine', 'ejs');
 
   // app.use(favicon(config.root + '/public/img/dist/favicon.ico'));
@@ -45,13 +45,4 @@ module.exports = (app, config) => {
       });
     });
   }
-
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: {},
-      title: 'error'
-    });
-  });
 };

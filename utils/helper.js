@@ -67,14 +67,6 @@ function updateAccessToken(refresh_token) {
         token.expires_in = new Date(token.expires_in + Date.now());
       }
       resolve(token);
-      /*User.update(
-        {refresh_token: refresh_token},
-        {$set: {refresh_token: token.refresh_token, access_token: token.access_token, expires_in: token.expires_in}}
-      ).then(function(doc) {
-        if(doc) console.log(doc);
-      }).then(function(err) {
-        if(err) console.log(err);
-      });*/
     });
   }); 
   

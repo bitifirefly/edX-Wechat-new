@@ -1,0 +1,91 @@
+<% include ./header %>
+
+<div class="page signin">
+  <div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">用户名</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input id="username" class="weui-input" type="text" pattern="[0-9]*" placeholder="User Name"/>
+      </div>
+    </div>
+
+    <div class="weui-cell">
+      <div class="weui-cell__hd">
+        <label class="weui-label">密码</label>
+      </div>
+      <div class="weui-cell__bd">
+        <input id="password" class="weui-input" type="text" type="password" placeholder="Password"/>
+      </div>
+    </div>
+  </div>
+  <div class="weui-btn-area">
+    <a id='submit_btn' class="weui-btn weui-btn_primary" href="javascript:">确定</a>
+  </div>
+
+  <div id="toast" style="display: none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+      <i id="toast_icon" class="weui-loading weui-icon_toast"></i>
+      <p id="toast_content" class="weui-toast__content"></p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+<script src="/lib/vconsole.min.js"></script>
+<script>
+  $(function() {
+    const $username = $('#username');
+    const $password = $('#password');
+    const $submitBtn = $('#submit_btn');
+    const $toast = $('#toast');
+    const $toastIcon = $('#toast_icon');
+    const $toastContent = $('#toast_content');
+
+    function showToast(type) {
+      $toast.css('display', 'block');
+      if (type === 'loading') {
+        $toastIcon.attr('class', 'weui-loading weui-icon_toast');
+        $toastContent.text('登录中');
+      }
+      if (type === 'success') {
+        $toastIcon.attr('class', 'weui-icon-success-no-circle weui-icon_toast');
+        $toastContent.text('登录成功');
+      }
+      if (type === 'error') {
+        $toastIcon.attr('class', 'weui-icon_toast');
+        $toastContent.text('登录失败');
+      }
+    }
+
+    $submitBtn.on('click', function() {
+      let username = $username.val().trim();
+      let password = $password.val().trim();
+      if(username === '' || password === '') {
+        console.log('不能为空'); 
+        return;
+      }
+      console.log('#', username, password);
+      $.post('/signin', { username: username, password: password }, function(data, status, res) {
+        if (status !== 'success') {
+          console.error('#post error#');
+          return;
+        }
+        if (data === 'incorrect') {
+          console.log('#incorrect username or password#');
+          return;
+        }
+        if (data === 'success') {
+          console.log('#login success#');
+          window.location = '/';
+          return;
+        }
+        console.log('#post#', status, data);
+      });
+    });
+  });
+</script>
+
+<% include ./footer %>

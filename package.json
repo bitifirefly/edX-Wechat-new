@@ -1,10 +1,11 @@
 {
   "name": "edx",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "edx-wechat-new",
+  "main": "app.js",
   "scripts": {
-    "test": ""
+    "start": "gulp",
+    "test": "Mocha -t 5000 --recursive utils"
   },
   "repository": {
     "type": "git",
@@ -17,27 +18,26 @@
   },
   "homepage": "https://github.com/bitifirefly/edX-Wechat-new#readme",
   "dependencies": {
-    "body-parser": "^1.15.2",
-    "compression": "^1.6.2",
-    "connect-mongo": "^1.3.2",
-    "ejs": "^2.5.1",
     "express": "^4.14.0",
-    "express-session": "^1.14.2",
-    "mongoose": "^4.6.0",
+    "ejs": "^2.5.3",
+    "body-parser": "^1.15.2",
+    "serve-favicon": "^2.3.2",
     "morgan": "^1.7.0",
-    "request": "^2.74.0",
-    "serve-favicon": "^2.3.0",
-    "sha1": "^1.1.1",
-    "wechat-oauth": "^1.1.1"
+    "compression": "^1.6.2",
+    "mongoose": "^4.7.1",
+    "connect-mongo": "^1.3.2",
+    "express-session": "^1.14.2",
+    "request": "^2.79.0",
+    "wechat-oauth": "^1.2.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
-    "gulp-htmlmin": "^2.0.0",
     "gulp-livereload": "^3.8.1",
-    "gulp-nodemon": "^2.1.0",
-    "gulp-ruby-sass": "^2.1.0",
-    "gulp-shell": "^0.5.2",
-    "gulp-uglify": "^2.0.0"
+    "gulp-nodemon": "^2.2.1",
+    "gulp-ruby-sass": "^2.1.1",
+    "gulp-uglify": "^2.0.0",
+    "mocha": "^3.2.0"
   }
 }

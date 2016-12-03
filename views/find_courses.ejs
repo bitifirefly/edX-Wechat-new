@@ -1,0 +1,40 @@
+<% include ./header %>
+
+<div class="weui-tab">
+  <div class="weui-tab__panel">
+    <% courses.forEach(function(course) { %>
+      <div class="weui_panel weui_panel_access">
+        <div class="weui_panel_bd">
+          <div class="weui_media_box weui_media_text">
+            <img style="max-width: 100%" src="http://x.edustack.org<%= course.media.course_image.uri %>" alt="course image">
+            <p class="weui_media_desc"><%= course.org %></p>
+            <p class="weui_media_desc"><%= course.number %></p>
+            <p class="weui_media_title"><%= course.name %></p>
+            <p><%= course.start_display %></p>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="weui-tabbar">
+    <a href="/" class="weui-tabbar__item weui-bar__item_on">
+      <img src="/src/img/tab_bar/find_courses_on.png" alt="" class="weui-tabbar__icon">
+      <p class="weui-tabbar__label">发现课程</p>
+    </a>
+    <a href="/my_courses" class="weui-tabbar__item">
+      <img src="/src/img/tab_bar/my_courses.png" alt="" class="weui-tabbar__icon">
+      <p class="weui-tabbar__label">我的课程</p>
+    </a>
+    <a href="/my_videos" class="weui-tabbar__item">
+      <img src="/src/img/tab_bar/my_videos.png" alt="" class="weui-tabbar__icon">
+      <p class="weui-tabbar__label">我的视频</p>
+    </a>
+    <a href="/settings" class="weui-tabbar__item">
+      <img src="/src/img/tab_bar/settings.png" alt="" class="weui-tabbar__icon">
+      <p class="weui-tabbar__label">设置</p>
+    </a>
+  </div>
+</div>
+
+<% include ./footer %>
