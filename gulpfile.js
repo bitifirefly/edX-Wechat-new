@@ -3,14 +3,15 @@ var nodemon = require('gulp-nodemon');
 var livereload = require('gulp-livereload');
 var eslint = require('gulp-eslint');
 var sass = require('gulp-ruby-sass');
-var uglify = require('gulp-uglify');
+var autoprefixer = require('gulp-autoprefixer');
+// var uglify = require('gulp-uglify');
 
-gulp.task('default', ['develop', 'sass', 'uglify', 'eslint', 'watch']);
+gulp.task('default', ['develop', 'sass', 'watch']);
 
 gulp.task('eslint', function () {
   livereload.listen();
   return gulp
-    .src(['**/*.js', '!node_modules/**', '!**/dist/**', '!public/lib/**', '!**/test/**'])
+    .src(['!node_modules/**', '!**/dist/**', '!public/lib/**', '!**/test/**'])
     .pipe(eslint({configFile: './.eslintrc'}))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -20,9 +21,6 @@ gulp.task('watch', function () {
   livereload.listen();
   gulp.watch('./public/src/js/*.js', ['uglify']);
   gulp.watch('./public/src/css/*.scss', ['sass']);
-  gulp.watch([
-    '**/*.js', '!node_modules/**', '!**/dist/**', '!public/lib/**'
-  ], ['eslint']);
 });
 
 gulp.task('develop', function () {
@@ -37,15 +35,16 @@ gulp.task('develop', function () {
 });
 
 gulp.task('sass', function () {
-  return sass('./public/src/css/*.scss', {style: 'compressed'})
-    .pipe(gulp.dest('./public/dist/css'))
+  return sass('./public/sass/*.scss')
+    .pipe(autoprefixer())
+    .pipe(gulp.dest('./public/css'))
     .pipe(livereload());
 });
 
-gulp.task('uglify', function () {
+/*gulp.task('uglify', function () {
   gulp
     .src('./public/src/js/*.js')
     .pipe(uglify({compress: true, mangle: true}))
     .pipe(gulp.dest('./public/dist/js'))
     .pipe(livereload());
-});
+});*/
