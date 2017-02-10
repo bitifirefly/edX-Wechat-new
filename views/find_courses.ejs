@@ -8,7 +8,6 @@
           <div class="weui_media_box weui_media_text">
             <img style="max-width: 100%" src="http://x.edustack.org<%= course.media.course_image.uri %>" alt="course image">
             <p class="weui_media_desc"><%= course.org %></p>
-            <p class="weui_media_desc"><%= course.number %></p>
             <p class="weui_media_title"><%= course.name %></p>
             <p><%= course.start_display %></p>
           </div>
@@ -25,10 +24,6 @@
     <a href="/my_courses" class="weui-tabbar__item">
       <img src="/src/img/tab_bar/my_courses.png" alt="" class="weui-tabbar__icon">
       <p class="weui-tabbar__label">我的课程</p>
-    </a>
-    <a href="/my_videos" class="weui-tabbar__item">
-      <img src="/src/img/tab_bar/my_videos.png" alt="" class="weui-tabbar__icon">
-      <p class="weui-tabbar__label">我的视频</p>
     </a>
     <a href="/settings" class="weui-tabbar__item">
       <img src="/src/img/tab_bar/settings.png" alt="" class="weui-tabbar__icon">
