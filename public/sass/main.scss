@@ -1,1 +1,22 @@
+html,
+body {
+  height: 100%;
+}
 
+// find_courses
+.weui-media-box_appmsg--patch {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.weui-media-box_appmsg .weui-media-box__hd--patch {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 10px;
+}
+.weui-media-box_appmsg .weui-media-box__bd--patch {
+  width: 100%;
+}
+.weui-media-box__desc--patch {
+  color: #000;
+  font-weight: 400;
+}

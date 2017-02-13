@@ -3,14 +3,21 @@
 <div class="weui-tab">
   <div class="weui-tab__panel">
     <% courses.forEach(function(course) { %>
-      <div class="weui_panel weui_panel_access">
-        <div class="weui_panel_bd">
-          <div class="weui_media_box weui_media_text">
-            <img style="max-width: 100%" src="http://x.edustack.org<%= course.media.course_image.uri %>" alt="course image">
-            <p class="weui_media_desc"><%= course.org %></p>
-            <p class="weui_media_title"><%= course.name %></p>
-            <p><%= course.start_display %></p>
-          </div>
+      <div class="weui-panel">
+        <div class="weui-panel__bd">
+          <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg weui-media-box_appmsg--patch">
+            <div class="weui-media-box__hd weui-media-box__hd--patch">
+              <img class="weui-media-box__thumb" src="http://x.edustack.org<%= course.media.course_image.uri %>" alt="">
+            </div>
+            <div class="weui-media-box__bd weui-media-box__bd--patch">
+              <p class="weui-media-box__desc weui-media-box__desc--patch"><%= course.org %></p>
+              <h4 class="weui-media-box__title"><%= course.name %></h4>
+              <ul class="weui-media-box__info">
+                <li class="weui-media-box__info__meta">starting Soon</li>
+              </ul>
+              <p class="weui-media-box__desc">Starts: <%= course.start_display %></p>
+            </div>
+          </a>
         </div>
       </div>
     <% }) %>

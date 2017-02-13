@@ -5,13 +5,9 @@ const settings = require('../../settings.json');
 
 const client = new OAuth(settings.wechat.appId, settings.wechat.appSecret);
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   if (!req.query.code) {
     return;
-  }
-
-  if (req.session.referer) {
-    req.headers['referer'] = req.session.referer;
   }
   
   client.getAccessToken(req.query.code, (err, token) => {
@@ -20,7 +16,7 @@ router.get('/', (req, res) => {
     const openid = token.data.openid;
 
     req.session.user = { openid: openid };
-    res.redirect('back');
+    next();
   });
 });
 

@@ -11,7 +11,7 @@ gulp.task('default', ['develop', 'sass', 'watch']);
 gulp.task('eslint', function () {
   livereload.listen();
   return gulp
-    .src(['!node_modules/**', '!**/dist/**', '!public/lib/**', '!**/test/**'])
+    .src(['!node_modules/**', '!public/lib/**', '!**/test/**'])
     .pipe(eslint({configFile: './.eslintrc'}))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -19,8 +19,7 @@ gulp.task('eslint', function () {
 
 gulp.task('watch', function () {
   livereload.listen();
-  gulp.watch('./public/src/js/*.js', ['uglify']);
-  gulp.watch('./public/src/css/*.scss', ['sass']);
+  gulp.watch('./public/sass/*.scss', ['sass']);
 });
 
 gulp.task('develop', function () {

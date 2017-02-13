@@ -9,7 +9,6 @@ const wechat_auth_url = client.getAuthorizeURL(settings.wechat.redirectUrl, sett
 
 module.exports = (req, res, next) => {
   if (!req.session.user || !req.session.user.openid) {
-    req.session.referer = `http://${req.host}${req.baseUrl}`;
     return res.redirect(wechat_auth_url);
   }
 
@@ -20,10 +19,7 @@ module.exports = (req, res, next) => {
   const openid = req.session.user.openid;
   UserModel.findOne({ openid: openid }).exec()
     .then(user => {
-      if (!user) {
-        return Promise.reject('signin');
-      }
-      if (!user.access_token) {
+      if (!user || !user.access_token) {
         return Promise.reject('signin');
       }
       if (isAccessTokenExpired(user.expires_in)) {
@@ -39,7 +35,7 @@ module.exports = (req, res, next) => {
       }
     })
     .then(user => {
-      if (user) return;
+      if (user) return next();
     }).catch(result => {
       if (result === 'signin') {
         return res.redirect('/signin');

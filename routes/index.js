@@ -7,8 +7,9 @@ const authMiddleware = require('../middlewares/auth');
 
 module.exports = (app) => {
   app.use('/', findCourseRouter);
-  app.use('/my_courses', authMiddleware, myCourseRouter);
-  app.use('/settings', settingsRouter);
-  app.use('/signin', signinRouter);
   app.use('/auth_wechat', authWechatRouter);
+  app.use('/signin', signinRouter);
+  app.use(authMiddleware);
+  app.use('/my_courses', myCourseRouter);
+  app.use('/settings', settingsRouter);
 };
