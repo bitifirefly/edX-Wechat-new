@@ -1,8 +1,14 @@
 <% include ./header %>
 
-<div class="weui-tab">
-  <div class="weui-tab__panel">
-    <h2>设置</h2>
+<div class="weui-cells">
+  <div class="weui-cell">
+    <div style="position: relative;margin-right: 10px;">
+      <img src="<%= user.profile_image.image_url_medium %>" style="width:50px; display:block"/>
+    </div>
+    <div>
+      <p><%= user.name %></p>
+      <p style="font-size:13px; color:#888888;">用户名：<%= user.username %></p>
+    </div>
   </div>
 </div>
 

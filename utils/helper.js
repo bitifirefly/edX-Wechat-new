@@ -6,8 +6,26 @@ const { client_id, client_secret } = settings.edx;
 module.exports = {
   getAccessToken: getAccessToken,
   isAccessTokenExpired: isAccessTokenExpired,
-  updateAccessToken: updateAccessToken
+  updateAccessToken: updateAccessToken,
+  getUserAccountInfo: getUserAccountInfo
 };
+
+function getUserAccountInfo(access_token, username) {
+  const requestUrl = 'https://x.edustack.org/api/user/v1/accounts/' + username;
+  const options = {
+    url: requestUrl,
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    }
+  };
+
+  return new Promise((resolve, reject) => {
+    request(options, (err, res, user) => {
+      if(err || res.statusCode !== 200) reject(err);
+      resolve(JSON.parse(user));
+    });
+  });
+}
 
 function getAccessToken(username, password) {
   const getTokenUrl = 'https://x.edustack.org/oauth2/access_token';
@@ -31,17 +49,7 @@ function getAccessToken(username, password) {
       }
       resolve(token);
       
-      /*const options = {
-        url: 'http://e.edustack.org/api/user/v1/accounts/uniquexiaobai',
-        headers: {
-          'Authorization': 'Bearer ' + token.access_token
-        }
-      };
-      token = JSON.parse(token);
-        request(options, (e, res, user) => {
-        if(err || res.statusCode !== 200) return reject(err);
-        console.log('#edx_user#', user);
-      });*/
+      
     });
   });
 }
