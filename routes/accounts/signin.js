@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { UserModel } = require('../../models');
-const { getAccessToken } = require('../../utils/helper');
+const { getAccessToken } = require('../../utils/edx_service');
 
 router.get('/', (req, res) => {
   res.render('signin', {title: '用户登录'});
@@ -25,7 +25,7 @@ router.post('/', (req, res) => {
       });
       return newUser.save();
     }).then(user => {
-      req.session.user = { openid: user.openid, access_token: user.access_token };
+      req.session.user.access_token = user.access_token;
       return Promise.reject('success');
     }).catch(result => {
       if (result === 'incorrect') {

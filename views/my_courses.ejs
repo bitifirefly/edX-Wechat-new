@@ -1,9 +1,24 @@
 <% include ./header %>
 
-<div class="weui-tab">
-  <div class="weui-tab__panel">
-    <h2><%= title %></h2>
+<div class="weui-tab__panel">
+<% courseList.forEach(function(course) { %>
+  <div class="weui-panel">
+    <div class="weui-panel__bd">
+      <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg weui-media-box_appmsg--patch">
+        <div class="weui-media-box__hd weui-media-box__hd--patch">
+          <img class="weui-media-box__thumb" src="http://x.edustack.org<%= course.media.course_image.uri %>" alt="">
+        </div>
+        <div class="weui-media-box__bd weui-media-box__bd--patch">
+          <p class="weui-media-box__desc weui-media-box__desc--patch"><%= course.org %></p>
+          <h4 class="weui-media-box__title"><%= course.name %></h4>
+          <ul class="weui-media-box__info">
+            <li class="weui-media-box__info__meta">starting Soon</li>
+          </ul>
+          <p class="weui-media-box__desc">Starts: <%= course.start_display %></p>
+        </div>
+      </a>
+    </div>
   </div>
-</div>
+<% }) %>
 
 <% include ./footer %>

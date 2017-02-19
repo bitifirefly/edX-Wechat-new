@@ -2,7 +2,7 @@ const OAuth = require('wechat-oauth');
 
 const settings = require('../settings.json');
 const { UserModel } = require('../models');
-const { isAccessTokenExpired, updateAccessToken } = require('../utils/helper');
+const { isAccessTokenExpired, updateAccessToken } = require('../utils/edx_service');
 
 const client = new OAuth(settings.wechat.appId, settings.wechat.appSecret);
 const wechat_auth_url = client.getAuthorizeURL(settings.wechat.redirectUrl, settings.wechat.state, settings.wechat.scope);
@@ -35,7 +35,10 @@ module.exports = (req, res, next) => {
       }
     })
     .then(user => {
-      if (user) return next();
+      if (user) {
+        req.session.user.access_token = user.access_token;
+        return next();
+      }
     }).catch(result => {
       if (result === 'signin') {
         return res.redirect('/signin');

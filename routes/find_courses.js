@@ -10,11 +10,11 @@ router.get('/', (req, res) => {
 
   request.get(url, (err, response, body) => {
     if(!err && response.statusCode == 200) {
-      const courses = JSON.parse(body).results;
+      const courseList = JSON.parse(body).results;
       
       res.render('find_courses', {
         title: '发现课程',
-        courses: courses,
+        courseList: courseList || [],
         lastPage: lastPage,
         nextPage: nextPage
       });
