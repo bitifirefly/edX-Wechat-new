@@ -8,5 +8,9 @@ const UserSchema = new mongoose.Schema({
   refresh_token: String
 });
 
+UserSchema.statics.findUserByOpenid = function(openid) {
+  return this.findOne({ openid: openid }).exec();
+};
+
 const UserModel = mongoose.model('User', UserSchema);
 module.exports = UserModel;

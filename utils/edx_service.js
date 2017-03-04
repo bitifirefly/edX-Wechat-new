@@ -2,6 +2,7 @@ const request = require('request');
 const settings = require('../settings.json');
 
 const { client_id, client_secret } = settings.edx;
+const baseUrl = 'https://x.edustack.org/';
 
 module.exports = {
   getAccessToken: getAccessToken,
@@ -12,7 +13,7 @@ module.exports = {
 };
 
 function getEnrolledCourseList(access_token) {
-  const requestUrl = 'https://x.edustack.org/api/enrollment/v1/enrollment';
+  const requestUrl = baseUrl + 'api/enrollment/v1/enrollment';
   const options = {
     url: requestUrl,
     headers: {
@@ -38,7 +39,7 @@ function getEnrolledCourseList(access_token) {
 
 function findCourseDetailById(courseId) {
   return new Promise((resolve, reject) => {
-    const courseUrl = 'https://x.edustack.org/api/courses/v1/courses/' + courseId;
+    const courseUrl = baseUrl + 'api/courses/v1/courses/' + courseId;
     
     request(courseUrl, (err, res, course) => {
       if (!err && res.statusCode === 200) {
@@ -49,7 +50,7 @@ function findCourseDetailById(courseId) {
 }
 
 function getUserAccountInfo(access_token) {
-  const requestUrl = 'https://x.edustack.org/api/user/v1/accounts';
+  const requestUrl = baseUrl + 'api/user/v1/accounts';
   const options = {
     url: requestUrl,
     headers: {
@@ -66,7 +67,7 @@ function getUserAccountInfo(access_token) {
 }
 
 function getAccessToken(username, password) {
-  const getTokenUrl = 'https://x.edustack.org/oauth2/access_token';
+  const getTokenUrl = baseUrl + 'oauth2/access_token';
   const getTokenOptions = {
     client_id: client_id,
     client_secret: client_secret,
@@ -97,7 +98,7 @@ function isAccessTokenExpired(expires_in) {
 }
 
 function updateAccessToken(refresh_token) {
-  const updateTokenUrl = 'https://x.edustack.org/oauth2/access_token';
+  const updateTokenUrl = baseUrl + 'oauth2/access_token';
   const updateTokenOptions = {
     client_id: client_id,
     client_secret: client_secret,

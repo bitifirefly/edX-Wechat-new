@@ -7,12 +7,12 @@ const client = new OAuth(settings.wechat.appId, settings.wechat.appSecret);
 
 router.get('/', (req, res, next) => {
   if (!req.query.code) {
-    return;
+    next(new Error('get wechat code error'));
   }
   
   client.getAccessToken(req.query.code, (err, token) => {
     // token.data: access_token, expires_in, refresh_token, openid
-    if (!token.data) return;
+    if (!token.data) return next(err);
     const openid = token.data.openid;
 
     req.session.user = { openid: openid };

@@ -17,34 +17,43 @@ module.exports = (req, res, next) => {
   }
 
   const openid = req.session.user.openid;
-  UserModel.findOne({ openid: openid }).exec()
+  let u;
+  UserModel.findUserByOpenid(openid)
     .then(user => {
       if (!user || !user.access_token) {
-        return Promise.reject('signin');
+        return Promise.reject({
+          notRealPromiseException: true,
+          data: 'signin'
+        });
       }
+
       if (isAccessTokenExpired(user.expires_in)) {
-        updateAccessToken(user.refresh_token)
-          .then(token => {
-            user.access_token = token.access_token;
-            user.expires_in = token.expires_in;
-            user.refresh_token = token.refresh_token;
-            return user.save();
-          });
-      } else {
-        return Promise.reject('next');
+        u = user;
+        return updateAccessToken(user.refresh_token);
       }
+
+      return Promise.reject({
+        notRealPromiseException: true,
+        data: 'next'
+      });
     })
-    .then(user => {
-      if (user) {
-        req.session.user.access_token = user.access_token;
-        return next();
-      }
-    }).catch(result => {
-      if (result === 'signin') {
-        return res.redirect('/signin');
-      }
-      if (result === 'next') {
-        return next();
+    .then(token => {
+      u.access_token = token.access_token;
+      u.expires_in = token.expires_in;
+      u.refresh_token = token.refresh_token;
+
+      return u.save();
+    })
+    .then(() => Promise.reject({
+      notRealPromiseException: true,
+      data: 'next'
+    }))
+    .catch(err => {
+      if (err.notRealPromiseException) {
+        if (err.data === 'signin') res.redirect('/signin');
+        if (err.data === 'next') next();
+      } else {
+        next(err);
       }
     });
 };
