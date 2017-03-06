@@ -1,0 +1,28 @@
+<% include ./header %>
+
+<div class="course_detail">
+  <article class="weui-article">
+    <p><img src="<%= course.media.image.raw %>" alt=""></p>
+    <h1><%= course.name %></h1>
+    <p><%- course.overview %></p>
+
+    <section>
+      <a href="javascript:;" class="weui-btn weui-btn_primary">Enroll Now</a>
+    </section>
+
+    <section class="course_info">
+      <div class="weui-flex">
+        <div class="weui-flex__item"><p>机构</p></div>
+        <div class="weui-flex__item"><p><%= course.org %></p></div>
+      </div>
+
+      <div class="weui-flex">
+        <div class="weui-flex__item"><p>开始时间</p></div>
+        <div class="weui-flex__item"><p><%= course.start_display %></p></div>
+      </div>
+    </section>
+  </article>
+
+</div>
+
+<% include ./footer %>

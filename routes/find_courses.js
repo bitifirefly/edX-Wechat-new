@@ -6,7 +6,8 @@ router.get('/', (req, res) => {
   const page = ~~req.query.page || 1;
   const lastPage = page === 1 ? page : page - 1;
   const nextPage = page + 1;
-  const url = 'http://x.edustack.org/api/courses/v1/courses/?page=' + page;
+  const baseUrl = 'https://x.shumba.cn/';
+  const url = baseUrl + '/api/courses/v1/courses/?page=' + page;
 
   request.get(url, (err, response, body) => {
     if(!err && response.statusCode == 200) {

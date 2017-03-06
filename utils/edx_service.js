@@ -2,14 +2,16 @@ const request = require('request');
 const settings = require('../settings.json');
 
 const { client_id, client_secret } = settings.edx;
-const baseUrl = 'https://x.edustack.org/';
+// const baseUrl = 'https://x.edustack.org/';
+const baseUrl = 'https://x.shumba.cn/';
 
 module.exports = {
   getAccessToken: getAccessToken,
   isAccessTokenExpired: isAccessTokenExpired,
   updateAccessToken: updateAccessToken,
   getUserAccountInfo: getUserAccountInfo,
-  getEnrolledCourseList: getEnrolledCourseList
+  getEnrolledCourseList: getEnrolledCourseList,
+  findCourseDetailById: findCourseDetailById
 };
 
 function getEnrolledCourseList(access_token) {
@@ -28,6 +30,9 @@ function getEnrolledCourseList(access_token) {
       if (!err && res.statusCode === 200) {
         enrolledCourses = JSON.parse(enrolledCourses);
 
+        // 待分页处理
+        enrolledCourses = enrolledCourses.slice(0, 3);
+
         enrolledCourses.forEach((course) => {
           arr.push(findCourseDetailById(course.course_details.course_id));
         });
@@ -42,9 +47,8 @@ function findCourseDetailById(courseId) {
     const courseUrl = baseUrl + 'api/courses/v1/courses/' + courseId;
     
     request(courseUrl, (err, res, course) => {
-      if (!err && res.statusCode === 200) {
-        resolve(JSON.parse(course));
-      }
+      if(err || res.statusCode !== 200) reject(err);
+      resolve(JSON.parse(course));
     });
   });
 }

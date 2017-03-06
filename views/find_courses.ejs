@@ -5,9 +5,9 @@
     <% courseList.forEach(function(course) { %>
       <div class="weui-panel">
         <div class="weui-panel__bd">
-          <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg weui-media-box_appmsg--patch">
+          <a href="/course_detail?id=<%- encodeURIComponent(course.id) %>" class="weui-media-box weui-media-box_appmsg weui-media-box_appmsg--patch">
             <div class="weui-media-box__hd weui-media-box__hd--patch">
-              <img class="weui-media-box__thumb" src="http://x.edustack.org<%= course.media.course_image.uri %>" alt="">
+              <img class="weui-media-box__thumb" src="https://x.shumba.cn<%= course.media.course_image.uri %>" alt="">
             </div>
             <div class="weui-media-box__bd weui-media-box__bd--patch">
               <p class="weui-media-box__desc weui-media-box__desc--patch"><%= course.org %></p>
