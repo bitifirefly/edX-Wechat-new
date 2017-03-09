@@ -1,4 +1,5 @@
 const request = require('request');
+const querystring = require('querystring');
 const settings = require('../settings.json');
 
 const { client_id, client_secret } = settings.edx;
@@ -11,8 +12,44 @@ module.exports = {
   updateAccessToken: updateAccessToken,
   getUserAccountInfo: getUserAccountInfo,
   getEnrolledCourseList: getEnrolledCourseList,
-  findCourseDetailById: findCourseDetailById
+  getCourseDetailById: getCourseDetailById,
+  getCourseChapterList: getCourseChapterList
 };
+
+function getCourseChapterList(access_token, course_id, username) {
+  course_id = querystring.escape(course_id);
+  const chapterListUrl = `${baseUrl}api/courses/v1/blocks/?course_id=${course_id}&username=${username}&depth=1&return_type=list&block_types_filter=chapter`;
+  const options = {
+    url: chapterListUrl,
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    }
+  };
+
+  new Promise((resolve, reject) => {
+    request(options, (err, res, chapterList) => {
+      if (err || res.statusCode !== 200) reject(err);
+      resolve(JSON.parse(chapterList));
+    });
+  });
+}
+
+function getChapterBlockList(access_token, chapter_id, username) {
+  const chapterDetailUrl = `${baseUrl}api/courses/v1/blocks/${chapter_id}?username=${username}&depth=1&return_type=list&block_types_filter=sequential`;
+  const options = {
+    url: chapterDetailUrl,
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    }
+  };
+
+  return new Promise((resolve, reject) => {
+    request(options, (err, res, blockList) => {
+      if (err || res.statusCode !== 200) reject(err);
+      resolve(JSON.parse(blockList));
+    });
+  });
+}
 
 function getEnrolledCourseList(access_token) {
   const requestUrl = baseUrl + 'api/enrollment/v1/enrollment';
@@ -34,7 +71,7 @@ function getEnrolledCourseList(access_token) {
         enrolledCourses = enrolledCourses.slice(0, 3);
 
         enrolledCourses.forEach((course) => {
-          arr.push(findCourseDetailById(course.course_details.course_id));
+          arr.push(getCourseDetailById(course.course_details.course_id));
         });
         resolve(Promise.all(arr));
       }
@@ -42,7 +79,7 @@ function getEnrolledCourseList(access_token) {
   });
 }
 
-function findCourseDetailById(courseId) {
+function getCourseDetailById(courseId) {
   return new Promise((resolve, reject) => {
     const courseUrl = baseUrl + 'api/courses/v1/courses/' + courseId;
     
