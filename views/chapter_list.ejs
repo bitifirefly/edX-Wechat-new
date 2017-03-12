@@ -3,7 +3,7 @@
 <div class="chapter_detail">
   <div class="weui-cells">
     <% chapterList.forEach(function(chapter) {%>
-      <a class="weui-cell weui-cell_access" href="javascript:;">
+      <a href="/block_list?chapter_id=<%- encodeURIComponent(chapter.id) %>" class="weui-cell weui-cell_access">
         <div class="weui-cell__bd">
           <p><%= chapter.display_name %></p>
         </div>

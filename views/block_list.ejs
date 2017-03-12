@@ -1,0 +1,16 @@
+<% include ./header %>
+
+<div class="block_detail">
+	<div class="weui-cells">
+    <% blockList.forEach(function(block) {%>
+      <a href="javascript:;" class="weui-cell weui-cell_access">
+        <div class="weui-cell__bd">
+          <p><%= block.display_name %></p>
+        </div>
+      <div class="weui-cell__ft"></div>
+		</a>
+    <% }) %>
+	</div>
+</div>
+
+<% include ./footer %>

@@ -13,10 +13,11 @@ module.exports = {
   getUserAccountInfo: getUserAccountInfo,
   getEnrolledCourseList: getEnrolledCourseList,
   getCourseDetailById: getCourseDetailById,
-  getCourseChapterList: getCourseChapterList
+  getCourseChapterList: getCourseChapterList,
+  getChapterBlockList: getChapterBlockList
 };
 
-function getCourseChapterList(access_token, course_id, username) {
+function getCourseChapterList(access_token, username, course_id) {
   course_id = querystring.escape(course_id);
   const chapterListUrl = `${baseUrl}api/courses/v1/blocks/?course_id=${course_id}&username=${username}&depth=1&return_type=list&block_types_filter=chapter`;
   const options = {
@@ -34,10 +35,11 @@ function getCourseChapterList(access_token, course_id, username) {
   });
 }
 
-function getChapterBlockList(access_token, chapter_id, username) {
-  const chapterDetailUrl = `${baseUrl}api/courses/v1/blocks/${chapter_id}?username=${username}&depth=1&return_type=list&block_types_filter=sequential`;
+function getChapterBlockList(access_token, username, chapter_id) {
+  const blockListUrl = `${baseUrl}api/courses/v1/blocks/${chapter_id}/?username=${username}&depth=1&return_type=list&block_types_filter=sequential`;
+  console.log(blockListUrl);
   const options = {
-    url: chapterDetailUrl,
+    url: blockListUrl,
     headers: {
       'Authorization': 'Bearer ' + access_token
     }
@@ -46,6 +48,7 @@ function getChapterBlockList(access_token, chapter_id, username) {
   return new Promise((resolve, reject) => {
     request(options, (err, res, blockList) => {
       if (err || res.statusCode !== 200) reject(err);
+      console.log(blockList);
       resolve(JSON.parse(blockList));
     });
   });

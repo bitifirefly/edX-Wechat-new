@@ -6,7 +6,7 @@ router.get('/', (req, res, next) => {
   const access_token = req.session.user.access_token;
   const course_id = req.query.course_id;
 
-  getCourseChapterList(access_token, course_id, 'zen')
+  getCourseChapterList(access_token, 'zen', course_id)
     .then(chapterList => {
       res.render('chapter_list', {
         title: '章节列表',
