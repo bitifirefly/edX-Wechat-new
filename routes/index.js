@@ -1,6 +1,6 @@
 const findCoursesRouter = require('./find_courses');
 const CourseDetailRouter = require('./course_detail');
-const CourseBlockListRouter = require('./block_list');
+const CourseChapterListRouter = require('./chapter_list');
 const myCoursesRouter = require('./my_courses');
 const settingsRouter = require('./settings');
 const signinRouter = require('./accounts/signin');
@@ -16,6 +16,6 @@ module.exports = (app) => {
   // app.use(authEdxMiddleware);
   app.use(mockAuthEdxMiddleware);
   app.use('/my_courses', myCoursesRouter);
-  app.use('/block_list', CourseBlockListRouter);
+  app.use('/chapter_list', CourseChapterListRouter);
   app.use('/settings', settingsRouter);
 };

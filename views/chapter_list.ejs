@@ -1,0 +1,16 @@
+<% include ./header %>
+
+<div class="chapter_detail">
+  <div class="weui-cells">
+    <% chapterList.forEach(function(chapter) {%>
+      <a class="weui-cell weui-cell_access" href="javascript:;">
+        <div class="weui-cell__bd">
+          <p><%= chapter.display_name %></p>
+        </div>
+      <div class="weui-cell__ft"></div>
+		</a>
+    <% }) %>
+	</div>
+</div>
+
+<% include ./footer %>

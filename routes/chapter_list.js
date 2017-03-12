@@ -2,21 +2,20 @@ const express = require('express');
 const router = express.Router();
 const { getCourseChapterList } = require('../utils/edx_service');
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   const access_token = req.session.user.access_token;
   const course_id = req.query.course_id;
 
   getCourseChapterList(access_token, course_id, 'zen')
     .then(chapterList => {
-      console.log('ok', chapterList);
+      res.render('chapter_list', {
+        title: '章节列表',
+        chapterList: chapterList
+      });
     })
     .catch(err => {
-      console.log('err', err);
+      next(err);
     });
-    
-  res.render('block_list', {
-    title: '章节列表'
-  });
 });
 
 module.exports = router;

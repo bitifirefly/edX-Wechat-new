@@ -26,7 +26,7 @@ function getCourseChapterList(access_token, course_id, username) {
     }
   };
 
-  new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     request(options, (err, res, chapterList) => {
       if (err || res.statusCode !== 200) reject(err);
       resolve(JSON.parse(chapterList));
